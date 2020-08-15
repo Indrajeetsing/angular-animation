@@ -1,5 +1,15 @@
-<div class="demo-dot"></div>
-
-<img [@rotatedState]='{value: state, params:{rotationSpeed: rotationSpeed}}' (@rotatedState.done)="onAnimationDone($event)" src="
-./../assets/images/earth.jpg">
-<!-- https://images-na.ssl-images-amazon.com/images/I/513hBIizJUL._SY355_.jpg" -->
+<div class="container">
+  <div class="left-container">
+    <div class="sun"></div>
+    <ng-container *ngFor="let planet of planets; let planetIndex = index">
+      <div class="planet-orbit" [@rotatedState]='{value: planet.orbitState, params:{rotationSpeed: planet.orbitSpeed}}'
+        (@rotatedState.done)="onAnimationDone($event, planetIndex, 'orbitState')" [ngStyle]="orbitRadius(planet.radius)">
+        <div class="planet" [@rotatedState]='{value: planet.state, params:{rotationSpeed: planet.spinSpeed}}'
+          (@rotatedState.done)="onAnimationDone($event, planetIndex, 'state')" [ngStyle]="{'background': planet.color}">
+          <span>{{planet.name}}</span>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <div class="right-container"></div>
+</div>

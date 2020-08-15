@@ -1,41 +1,52 @@
-.circle {
-  height: 300px;
-  width: 300px;
-  background-color: yellow;
-  border-radius: 50%;
-  margin: 100px;
-  display: inline-block;
-  transform: translateX(150px);
-  position: absolute;
-}
+.container {
+  display: flex;
+  height: 100%;
 
+  .left-container {
+    flex: 3;
+    background-color: #000000;
+    position: relative;
 
-.demo-dot {
-  animation: xAxis 2.5s infinite cubic-bezier(0, 0, 1, 0);
-}
+    .sun {
+      background-color: #ba8f27;
+      border-radius: 200px;
+      box-shadow: 0 0 128px red;
+      margin-top: -100px;
+      margin-left: -100px;
+      left: 50%;
+      height: 200px;
+      position: absolute;
+      top: 50%;
+      width: 200px;
+    }
 
-.demo-dot::after {
-  content: '';
-  display: block;
-  width: 20px;
-  height: 20px;
-  margin-left: 100px;
-  margin-top: 200px;
-  border-radius: 20px;
-  background-color: black;
-  animation: yAxis 2.5s infinite cubic-bezier(0, 0, 0, 1);
-}
+    .planet-orbit {
+      border: 2px solid #373737;
+      border-radius: 50%;
+      left: 50%;
+      position: absolute;
+      top: 50%;
 
-@keyframes yAxis {
-  50% {
-    animation-timing-function: cubic-bezier(0, 0, 1, 0);
-    transform: translateY(-100px);
+      .planet {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50px;
+        margin-left: -25px;
+        margin-top: -25px;
+        height: 50px;
+        left: 50%;
+        position: absolute;
+        top: 0%;
+        width: 50px;
+      }
+
+    }
+
   }
-}
 
-@keyframes xAxis {
-  50% {
-    animation-timing-function: cubic-bezier(0, 0, 0, 1);
-    transform: translateX(100px);
+  .right-container {
+    flex: 1;
   }
+
 }
