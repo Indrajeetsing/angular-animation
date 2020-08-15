@@ -32,13 +32,9 @@
         justify-content: center;
         align-items: center;
         border-radius: 50px;
-        margin-left: -25px;
-        margin-top: -25px;
-        height: 50px;
         left: 50%;
         position: absolute;
         top: 0%;
-        width: 50px;
       }
 
     }
@@ -47,6 +43,19 @@
 
   .right-container {
     flex: 1;
+    padding: 10px;
+    overflow: auto;
+
+    mat-form-field,
+    button {
+      width: 100%;
+    }
   }
 
+}
+
+@media (max-width: 600px) {
+  .container {
+    flex-direction: column;
+  }
 }

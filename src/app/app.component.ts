@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AppService } from './app.service';
+import { Planet } from './models/planet.model';
 
 @Component({
   selector: 'app-root',
@@ -23,11 +26,14 @@ import { trigger, style, animate, transition } from '@angular/animations';
 
 export class AppComponent implements OnInit {
 
-  public planets: { name: string; color: string; radius: string; state: string; orbitState: string; orbitSpeed: string; spinSpeed: string }[] = [
-    { name: 'Earth', color: 'cornflowerblue', radius: '200px', state: 'void', orbitState: 'void', orbitSpeed: '10000ms', spinSpeed: '2000ms' }
-  ];
+  public planets: Planet[] = []
 
-  constructor() { }
+  public planetForm: FormGroup;
+
+  constructor(private fb: FormBuilder, private appService: AppService) {
+    this.initializeForm();
+    this.planets = this.appService.planets;
+  }
 
   ngOnInit() { }
 
@@ -35,15 +41,68 @@ export class AppComponent implements OnInit {
     this.planets[index][state] = this.planets[index][state] === 'void' ? 'rotated' : 'void';
   }
 
-  public orbitRadius(ballRadius): object {
-    const numRadius = parseInt(ballRadius, 10);
+  public calculateRadius(orbitRadius: number): object {
+    // const numRadius = parseInt(ballRadius, 10);
     const radiusStyles = {
-      'height': numRadius * 2 + 'px',
-      'margin-top': -numRadius + 'px',
-      'margin-left': -numRadius + 'px',
-      'width': numRadius * 2 + 'px'
+      'height': orbitRadius * 2 + 'px',
+      'margin-top': -orbitRadius + 'px',
+      'margin-left': -orbitRadius + 'px',
+      'width': orbitRadius * 2 + 'px'
     };
 
     return radiusStyles;
+  }
+
+  public planetStyles(planetRadius: number, color: string) {
+    const planetStyles: any = this.calculateRadius(planetRadius);
+    planetStyles.background = color;
+    return planetStyles;
+  }
+
+  private initializeForm() {
+    this.planetForm = this.fb.group({
+      id: [''],
+      name: ['', Validators.required],
+      color: ['Blue', Validators.required],
+      radius: [250, Validators.min(100)],
+      orbitSpeed: [5000, Validators.min(1000)],
+      spinSpeed: [2000, Validators.min(1000)],
+      planetRadius: [30, Validators.min(25)],
+      state: ['void', Validators.required],
+      orbitState: ['void', Validators.required],
+    });
+  }
+
+  public savePlanet() {
+    const planet = this.planetForm.value;
+    planet.orbitSpeed = `${planet.orbitSpeed}ms`;
+    planet.spinSpeed = `${planet.spinSpeed}ms`;
+
+    if (planet.id) {
+      const pIndex = this.planets.findIndex(p => p.id === planet.id);
+      this.appService.planets[pIndex] = planet;
+    } else {
+      planet.id = this.uuidv4();
+      this.appService.planets.push(planet);
+    }
+    this.initializeForm();
+  }
+
+  private uuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+      const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+
+  public planetSelected(ev) {
+    if (ev.value) {
+      const planet = JSON.parse(JSON.stringify(ev.value));
+      planet.orbitSpeed = parseInt(planet.orbitSpeed, 10);
+      planet.spinSpeed = parseInt(planet.spinSpeed, 10);
+      this.planetForm.setValue(planet, { onlySelf: true });
+    } else {
+      this.initializeForm();
+    }
   }
 }

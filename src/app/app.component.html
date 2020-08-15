@@ -1,15 +1,80 @@
 <div class="container">
+
+
   <div class="left-container">
     <div class="sun"></div>
     <ng-container *ngFor="let planet of planets; let planetIndex = index">
       <div class="planet-orbit" [@rotatedState]='{value: planet.orbitState, params:{rotationSpeed: planet.orbitSpeed}}'
-        (@rotatedState.done)="onAnimationDone($event, planetIndex, 'orbitState')" [ngStyle]="orbitRadius(planet.radius)">
+        (@rotatedState.done)="onAnimationDone($event, planetIndex, 'orbitState')" [ngStyle]="calculateRadius(planet.radius)">
         <div class="planet" [@rotatedState]='{value: planet.state, params:{rotationSpeed: planet.spinSpeed}}'
-          (@rotatedState.done)="onAnimationDone($event, planetIndex, 'state')" [ngStyle]="{'background': planet.color}">
+          (@rotatedState.done)="onAnimationDone($event, planetIndex, 'state')" [ngStyle]="planetStyles(planet.planetRadius, planet.color)">
           <span>{{planet.name}}</span>
         </div>
       </div>
     </ng-container>
   </div>
-  <div class="right-container"></div>
+
+
+  <div class="right-container">
+    <mat-toolbar color="primary">
+      <span>Planet Details</span>
+    </mat-toolbar>
+    <mat-card>
+
+      <mat-form-field appearance="standard">
+        <mat-label>Select Planet</mat-label>
+        <mat-select (selectionChange)="planetSelected($event)">
+          <mat-option *ngFor="let planet of planets" [value]="planet">
+            {{planet.name}}
+          </mat-option>
+          <mat-option value="">Add New</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <form [formGroup]="planetForm">
+
+        <mat-form-field appearance="standard">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name">
+          <mat-error>Name is required.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="standard">
+          <mat-label>Color</mat-label>
+          <input matInput formControlName="color">
+          <mat-error>Color is required.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="standard">
+          <mat-label>Orbit Radius</mat-label>
+          <input matInput type="number" formControlName="radius">
+          <span matSuffix>px</span>
+          <mat-error>Min Orbit Radius: 100px</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="standard">
+          <mat-label>Orbit Speed</mat-label>
+          <input matInput type="number" formControlName="orbitSpeed">
+          <span matSuffix>ms</span>
+          <mat-error>Min Orbit Speed: 1000ms</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="standard">
+          <mat-label>Spin Speed</mat-label>
+          <input matInput type="number" formControlName="spinSpeed">
+          <span matSuffix>ms</span>
+          <mat-error>Min Spin Speed: 1000ms</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="standard">
+          <mat-label>Planet Radius</mat-label>
+          <input matInput type="number" formControlName="planetRadius">
+          <span matSuffix>px</span>
+          <mat-error>Min Planet Radius: 25px</mat-error>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" (click)="savePlanet()" [disabled]="planetForm.invalid">Save Planet</button>
+      </form>
+    </mat-card>
+  </div>
 </div>
