@@ -31,7 +31,7 @@
         </mat-select>
       </mat-form-field>
 
-      <form [formGroup]="planetForm">
+      <form [formGroup]="planetForm" (ngSubmit)="savePlanet()">
 
         <mat-form-field appearance="standard">
           <mat-label>Name</mat-label>
@@ -73,7 +73,7 @@
           <mat-error>Min Planet Radius: 25px</mat-error>
         </mat-form-field>
 
-        <button mat-raised-button color="primary" (click)="savePlanet()" [disabled]="planetForm.invalid">Save Planet</button>
+        <button mat-raised-button color="primary">Save Planet</button>
       </form>
     </mat-card>
   </div>

@@ -62,7 +62,7 @@ export class AppComponent implements OnInit {
   private initializeForm() {
     this.planetForm = this.fb.group({
       id: [''],
-      name: ['', Validators.required],
+      name: ['New', Validators.required],
       color: ['Blue', Validators.required],
       radius: [250, Validators.min(100)],
       orbitSpeed: [5000, Validators.min(1000)],
@@ -74,18 +74,20 @@ export class AppComponent implements OnInit {
   }
 
   public savePlanet() {
-    const planet = this.planetForm.value;
-    planet.orbitSpeed = `${planet.orbitSpeed}ms`;
-    planet.spinSpeed = `${planet.spinSpeed}ms`;
+    if (this.planetForm.valid) {
+      const planet = this.planetForm.value;
+      planet.orbitSpeed = `${planet.orbitSpeed}ms`;
+      planet.spinSpeed = `${planet.spinSpeed}ms`;
 
-    if (planet.id) {
-      const pIndex = this.planets.findIndex(p => p.id === planet.id);
-      this.appService.planets[pIndex] = planet;
-    } else {
-      planet.id = this.uuidv4();
-      this.appService.planets.push(planet);
+      if (planet.id) {
+        const pIndex = this.planets.findIndex(p => p.id === planet.id);
+        this.appService.planets[pIndex] = planet;
+      } else {
+        planet.id = this.uuidv4();
+        this.appService.planets.push(planet);
+      }
+      this.initializeForm();
     }
-    this.initializeForm();
   }
 
   private uuidv4() {
