@@ -21,7 +21,7 @@
     </mat-toolbar>
     <mat-card>
 
-      <mat-form-field appearance="standard">
+      <!-- <mat-form-field appearance="standard">
         <mat-label>Select Planet</mat-label>
         <mat-select (selectionChange)="planetSelected($event)">
           <mat-option *ngFor="let planet of planets" [value]="planet">
@@ -29,7 +29,7 @@
           </mat-option>
           <mat-option value="">Add New</mat-option>
         </mat-select>
-      </mat-form-field>
+      </mat-form-field> -->
 
       <form [formGroup]="planetForm" (ngSubmit)="savePlanet()">
 
@@ -73,7 +73,7 @@
           <mat-error>Min Planet Radius: 25px</mat-error>
         </mat-form-field>
 
-        <button mat-raised-button color="primary">Save Planet</button>
+        <button mat-raised-button color="primary">Add Planet</button>
       </form>
     </mat-card>
   </div>

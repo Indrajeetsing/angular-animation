@@ -3,6 +3,7 @@ import { trigger, style, animate, transition } from '@angular/animations';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AppService } from './app.service';
 import { Planet } from './models/planet.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,7 @@ import { Planet } from './models/planet.model';
           transform: 'rotate(360deg)'
         }))
       ]),
-      transition('* => roatated', [
+      transition('roatated => *', [
         animate('{{rotationSpeed}} linear', style({
           transform: 'rotate(360deg)'
         }))
@@ -30,7 +31,7 @@ export class AppComponent implements OnInit {
 
   public planetForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private appService: AppService) {
+  constructor(private fb: FormBuilder, private appService: AppService, private _snackBar: MatSnackBar) {
     this.initializeForm();
     this.planets = this.appService.planets;
   }
@@ -38,9 +39,11 @@ export class AppComponent implements OnInit {
   ngOnInit() { }
 
   public onAnimationDone(event: AnimationEvent, index: number, state: string) {
-    setTimeout(() => {
-      this.planets[index][state] = this.planets[index][state] === 'void' ? 'rotated' : 'void';
-    }, 0);
+    if (this.planets.length) {
+      setTimeout(() => {
+        this.planets[index][state] = this.planets[index][state] === 'void' ? 'rotated' : 'void';
+      }, 0);
+    }
   }
 
   public calculateRadius(orbitRadius: number): object {
@@ -65,7 +68,7 @@ export class AppComponent implements OnInit {
     this.planetForm = this.fb.group({
       id: [''],
       name: ['New', Validators.required],
-      color: ['Blue', Validators.required],
+      color: ['cornflowerblue', Validators.required],
       radius: [250, Validators.min(100)],
       orbitSpeed: [5000, Validators.min(1000)],
       spinSpeed: [2000, Validators.min(1000)],
@@ -81,13 +84,16 @@ export class AppComponent implements OnInit {
       planet.orbitSpeed = `${planet.orbitSpeed}ms`;
       planet.spinSpeed = `${planet.spinSpeed}ms`;
 
-      if (planet.id) {
-        const pIndex = this.planets.findIndex(p => p.id === planet.id);
-        this.appService.planets[pIndex] = planet;
-      } else {
-        planet.id = this.uuidv4();
-        this.appService.planets.push(planet);
-      }
+      // if (planet.id) {
+      //   console.log('coming');
+      //   const pIndex = this.appService.planets.findIndex(p => p.id === planet.id);
+      //   this.appService.planets[pIndex] = planet;
+      // } else {
+      planet.id = this.uuidv4();
+      this.appService.planets.push(planet);
+      this.openSnackBar(`${planet.name} planet has been added successfully.`, 'Close');
+      // }
+
       this.initializeForm();
     }
   }
@@ -108,5 +114,11 @@ export class AppComponent implements OnInit {
     } else {
       this.initializeForm();
     }
+  }
+
+  private openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 2000,
+    });
   }
 }
