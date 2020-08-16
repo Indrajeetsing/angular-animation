@@ -11,12 +11,12 @@ import { Planet } from './models/planet.model';
   animations: [
     trigger('rotatedState', [
       transition('void => *', [
-        animate('{{rotationSpeed}}', style({
+        animate('{{rotationSpeed}} linear', style({
           transform: 'rotate(360deg)'
         }))
       ]),
       transition('* => roatated', [
-        animate('{{rotationSpeed}}', style({
+        animate('{{rotationSpeed}} linear', style({
           transform: 'rotate(360deg)'
         }))
       ])
@@ -26,7 +26,7 @@ import { Planet } from './models/planet.model';
 
 export class AppComponent implements OnInit {
 
-  public planets: Planet[] = []
+  public planets: Planet[] = [];
 
   public planetForm: FormGroup;
 
@@ -38,7 +38,9 @@ export class AppComponent implements OnInit {
   ngOnInit() { }
 
   public onAnimationDone(event: AnimationEvent, index: number, state: string) {
-    this.planets[index][state] = this.planets[index][state] === 'void' ? 'rotated' : 'void';
+    setTimeout(() => {
+      this.planets[index][state] = this.planets[index][state] === 'void' ? 'rotated' : 'void';
+    }, 0);
   }
 
   public calculateRadius(orbitRadius: number): object {
