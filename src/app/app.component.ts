@@ -10,13 +10,15 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   animations: [
-    trigger('rotatedState', [
+    trigger('rotateOrbit', [
       transition('void => *', [
         animate('{{rotationSpeed}} linear', style({
           transform: 'rotate(360deg)'
         }))
-      ]),
-      transition('roatated => *', [
+      ])
+    ]),
+    trigger('rotatePlanet', [
+      transition('rotated => *', [
         animate('{{rotationSpeed}} linear', style({
           transform: 'rotate(360deg)'
         }))

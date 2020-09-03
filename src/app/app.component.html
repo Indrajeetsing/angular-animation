@@ -4,10 +4,10 @@
   <div class="left-container">
     <div class="sun"></div>
     <ng-container *ngFor="let planet of planets; let planetIndex = index">
-      <div class="planet-orbit" [@rotatedState]='{value: planet.orbitState, params:{rotationSpeed: planet.orbitSpeed}}'
-        (@rotatedState.done)="onAnimationDone($event, planetIndex, 'orbitState')" [ngStyle]="calculateRadius(planet.radius)">
-        <div class="planet" [@rotatedState]='{value: planet.state, params:{rotationSpeed: planet.spinSpeed}}'
-          (@rotatedState.done)="onAnimationDone($event, planetIndex, 'state')" [ngStyle]="planetStyles(planet.planetRadius, planet.color)">
+      <div class="planet-orbit" [@rotateOrbit]='{value: planet.orbitState, params:{rotationSpeed: planet.orbitSpeed}}'
+        (@rotateOrbit.done)="onAnimationDone($event, planetIndex, 'orbitState')" [ngStyle]="calculateRadius(planet.radius)">
+        <div class="planet" [@rotatePlanet]='{value: planet.state, params:{rotationSpeed: planet.spinSpeed}}'
+          (@rotatePlanet.done)="onAnimationDone($event, planetIndex, 'state')" [ngStyle]="planetStyles(planet.planetRadius, planet.color)">
           <span>{{planet.name}}</span>
         </div>
       </div>
