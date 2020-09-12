@@ -70,11 +70,11 @@ export class AppComponent implements OnInit {
     this.planetForm = this.fb.group({
       id: [''],
       name: ['New', Validators.required],
-      color: ['cornflowerblue', Validators.required],
-      radius: [250, Validators.min(100)],
+      color: ['#6495ed', Validators.required],
+      radius: [100, Validators.min(64)],
       orbitSpeed: [5000, Validators.min(1000)],
       spinSpeed: [2000, Validators.min(1000)],
-      planetRadius: [30, Validators.min(25)],
+      planetRadius: [20, Validators.min(10)],
       state: ['void', Validators.required],
       orbitState: ['void', Validators.required],
     });

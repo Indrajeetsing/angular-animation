@@ -8,7 +8,7 @@ export class AppService {
   constructor(
   ) { }
   private planetArr: Planet[] = [
-    { id: "123jkhk91823k", name: 'Earth', color: 'cornflowerblue', radius: 200, planetRadius: 25, state: 'void', orbitState: 'void', orbitSpeed: '10000ms', spinSpeed: '2000ms' }
+    { id: "123jkhk91823k", name: 'Earth', color: 'cornflowerblue', radius: 150, planetRadius: 24, state: 'void', orbitState: 'void', orbitSpeed: '10000ms', spinSpeed: '2000ms' }
   ];
 
   get planets(): Planet[] {
