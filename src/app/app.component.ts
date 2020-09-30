@@ -69,12 +69,12 @@ export class AppComponent implements OnInit {
   private initializeForm() {
     this.planetForm = this.fb.group({
       id: [''],
-      name: ['New', Validators.required],
-      color: ['#6495ed', Validators.required],
+      name: ['Venus', Validators.required],
+      color: ['#b56b6b', Validators.required],
       radius: [100, Validators.min(64)],
-      orbitSpeed: [5000, Validators.min(1000)],
-      spinSpeed: [2000, Validators.min(1000)],
-      planetRadius: [20, Validators.min(10)],
+      orbitSpeed: [30000, Validators.min(1000)],
+      spinSpeed: [10000, Validators.min(1000)],
+      planetRadius: [25, Validators.min(10)],
       state: ['void', Validators.required],
       orbitState: ['void', Validators.required],
     });
